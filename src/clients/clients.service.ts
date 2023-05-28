@@ -23,15 +23,11 @@ export class ClientsService {
     return this.clientRepository.find();
   }
 
-  findOne(id: any) {
-    return this.clientRepository.findOne(id);
+  findOne(cpf: any) {
+    return this.clientRepository.findOne(cpf);
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+    return this.clientRepository.update(id, updateClientDto);
   }
 }

@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
+import { Vehicle } from './entities/vehicle.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class VehiclesService {
+  constructor(
+    @InjectRepository(Vehicle)
+    private vehicleRepository: Repository<Vehicle>,
+  ) {}
+
   create(createVehicleDto: CreateVehicleDto) {
-    return 'This action adds a new vehicle';
+    return this.vehicleRepository.save(createVehicleDto);
   }
 
   findAll() {
-    return `This action returns all vehicles`;
+    return this.vehicleRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vehicle`;
+  findOne(id: any) {
+    return this.vehicleRepository.findOne(id);
   }
 
   update(id: number, updateVehicleDto: UpdateVehicleDto) {
-    return `This action updates a #${id} vehicle`;
+    return this.vehicleRepository.update(id, updateVehicleDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} vehicle`;
+    return this.vehicleRepository.delete(id);
   }
 }

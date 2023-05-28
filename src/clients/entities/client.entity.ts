@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Vehicle } from 'src/vehicles/entities/vehicle.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'client' })
 export class Client {
@@ -23,4 +24,7 @@ export class Client {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @OneToMany(() => Vehicle, (vehicle) => vehicle.client, { nullable: true })
+  vehicle: Vehicle[];
 }
