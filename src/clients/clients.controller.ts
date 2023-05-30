@@ -18,8 +18,8 @@ export class ClientsController {
   }
 
   @Get(':cpf')
-  findOne(@Param('cpf') cpf: number) {
-    return this.clientsService.findOne(+cpf);
+  findOne(@Param('cpf') cpf: string) {
+    return this.clientsService.findOne(cpf);
   }
 
   @Patch(':id')

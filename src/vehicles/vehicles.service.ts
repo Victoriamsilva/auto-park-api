@@ -13,22 +13,70 @@ export class VehiclesService {
   ) {}
 
   create(createVehicleDto: CreateVehicleDto) {
-    return this.vehicleRepository.save(createVehicleDto);
+    try {
+      const date = new Date();
+      createVehicleDto.createdAt = date;
+      createVehicleDto.updatedAt = date;
+      createVehicleDto.isActive = true;
+      return this.vehicleRepository.save(createVehicleDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   findAll() {
-    return this.vehicleRepository.find();
+    try {
+      return this.vehicleRepository.find({
+        where: {
+          isActive: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  findByClient(id: any) {
+    return this.vehicleRepository.find({
+      where: {
+        client: {
+          id: id,
+        },
+        isActive: true,
+      },
+    });
   }
 
   findOne(id: any) {
-    return this.vehicleRepository.findOne(id);
+    try {
+      return this.vehicleRepository.findOne({
+        where: {
+          id: id,
+          isActive: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   update(id: number, updateVehicleDto: UpdateVehicleDto) {
-    return this.vehicleRepository.update(id, updateVehicleDto);
+    try {
+      const date = new Date();
+      updateVehicleDto.updatedAt = date;
+      return this.vehicleRepository.update(id, updateVehicleDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   remove(id: number) {
-    return this.vehicleRepository.delete(id);
+    try {
+      return this.vehicleRepository.update(id, {
+        isActive: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

@@ -26,8 +26,8 @@ export class VehiclesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.vehiclesService.findOne(+id);
+  findByClient(@Param('id') id: string) {
+    return this.vehiclesService.findByClient(+id);
   }
 
   @Patch(':id')

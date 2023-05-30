@@ -13,21 +13,55 @@ export class ClientsService {
   ) {}
 
   create(createClientDto: CreateClientDto) {
-    const date = new Date();
-    createClientDto.createdAt = date;
-    createClientDto.updatedAt = date;
-    return this.clientRepository.save(createClientDto);
+    try {
+      const date = new Date();
+      createClientDto.createdAt = date;
+      createClientDto.updatedAt = date;
+      createClientDto.isActive = true;
+      return this.clientRepository.save(createClientDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   findAll() {
-    return this.clientRepository.find();
+    try {
+      return this.clientRepository.find({ where: { isActive: true } });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  findOne(cpf: any) {
-    return this.clientRepository.findOne(cpf);
+  findOne(id: any) {
+    try {
+      return this.clientRepository.findOne(id);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   update(id: number, updateClientDto: UpdateClientDto) {
-    return this.clientRepository.update(id, updateClientDto);
+    try {
+      return this.clientRepository.update(id, {
+        ...updateClientDto,
+        updatedAt: new Date(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  remove(id: number) {
+    try {
+      return this.clientRepository.update(id, {
+        isActive: false,
+        updatedAt: new Date(),
+      });
+    } catch (error) {
+      return this.clientRepository.update(id, {
+        isActive: false,
+        updatedAt: new Date(),
+      });
+    }
   }
 }

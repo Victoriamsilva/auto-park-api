@@ -12,6 +12,9 @@ export class Client {
   @Column()
   email: string;
 
+  @Column()
+  cpf: string;
+
   @Column({ default: true })
   isActive: boolean;
 

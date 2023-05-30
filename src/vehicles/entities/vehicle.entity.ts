@@ -20,9 +20,6 @@ export class Vehicle {
   @Column()
   licensePlate: string;
 
-  @Column({ default: true })
-  isParked: boolean;
-
   @Column({
     default: () => 'CURRENT_TIMESTAMP',
   })
@@ -32,6 +29,9 @@ export class Vehicle {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+
+  @Column({ default: true })
+  isActive: boolean;
 
   @ManyToOne(() => Client, (client) => client.vehicle)
   @JoinColumn({ name: 'clientId' })

@@ -13,22 +13,56 @@ export class TypesService {
   ) {}
 
   create(createTypeDto: CreateTypeDto) {
-    return this.typeRepository.save(createTypeDto);
+    try {
+      const date = new Date();
+      createTypeDto.createdAt = date;
+      createTypeDto.updatedAt = date;
+      createTypeDto.isActive = true;
+      return this.typeRepository.save(createTypeDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   findAll() {
-    return this.typeRepository.find();
+    try {
+      return this.typeRepository.find({
+        where: {
+          isActive: true,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   findOne(id: any) {
-    return this.typeRepository.findOne(id);
+    try {
+      return this.typeRepository.findOne({
+        where: {
+          id: id,
+          isActive: true,
+        },
+      });
+    } catch (error) {}
   }
 
   update(id: number, updateTypeDto: UpdateTypeDto) {
-    return this.typeRepository.update(id, updateTypeDto);
+    try {
+      updateTypeDto.updatedAt = new Date();
+      return this.typeRepository.update(id, updateTypeDto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   remove(id: number) {
-    return this.typeRepository.delete(id);
+    try {
+      return this.typeRepository.update(id, {
+        isActive: false,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
