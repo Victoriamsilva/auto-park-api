@@ -34,7 +34,9 @@ export class ClientsService {
 
   findOne(id: any) {
     try {
-      return this.clientRepository.findOne(id);
+      return this.clientRepository.findOne({
+        where: { id: id, isActive: true },
+      });
     } catch (error) {
       console.log(error);
     }

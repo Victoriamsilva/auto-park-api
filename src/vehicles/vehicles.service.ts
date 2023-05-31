@@ -37,14 +37,17 @@ export class VehiclesService {
   }
 
   findByClient(id: any) {
-    return this.vehicleRepository.find({
-      where: {
-        client: {
-          id: id,
-        },
-        isActive: true,
-      },
-    });
+    try {
+      const query = this.vehicleRepository.createQueryBuilder('vehicle');
+      query.leftJoinAndSelect('vehicle.type', 'type');
+
+      return query
+        .where('vehicle.clientId = :id', { id: id })
+        .andWhere('vehicle.isActive = :isActive', { isActive: true })
+        .getMany();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   findOne(id: any) {
